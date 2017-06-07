@@ -41,7 +41,7 @@ public class Main extends JFrame {
 		
 		try {
 			
-			Files.list(Paths.get("<Document Folder>")).forEach(filePath -> {
+			Files.list(Paths.get("/Users/Martin/Dropbox/University/Teaching Fellow/2016-17/Teaching/4CCS1PPA/Semester 2/Assignments/Coursework X/ppa-major-coursework-2017/ppa-major-coursework-2017/marking/student_data/submitted_reports")).forEach(filePath -> {
 			    
 				if (Files.isRegularFile(filePath) && filePath.toString().endsWith(".pdf")) {
 			    
@@ -134,9 +134,9 @@ public class Main extends JFrame {
 					
 					try {
 						
-						Files.write(Paths.get("<Output File>"), new ArrayList<String>(Arrays.asList(new String[] {toWrite})), StandardCharsets.UTF_8, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+						Files.write(Paths.get("/Users/Martin/Dropbox/University/Teaching Fellow/2016-17/Teaching/4CCS1PPA/Semester 2/Assignments/Coursework X/ppa-major-coursework-2017/ppa-major-coursework-2017/marking/student_data/report-marks.csv"), new ArrayList<String>(Arrays.asList(new String[] {toWrite})), StandardCharsets.UTF_8, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
 						
-						Files.write(Paths.get("<Backup Output File>"), new ArrayList<String>(Arrays.asList(new String[] {toWrite})), StandardCharsets.UTF_8, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+						Files.write(Paths.get("/Users/Martin/Dropbox/University/Teaching Fellow/2016-17/Teaching/4CCS1PPA/Semester 2/Assignments/Coursework X/ppa-major-coursework-2017/ppa-major-coursework-2017/marking/student_data/report-marks-backup.csv"), new ArrayList<String>(Arrays.asList(new String[] {toWrite})), StandardCharsets.UTF_8, StandardOpenOption.APPEND, StandardOpenOption.CREATE);
 						
 						
 					} catch (IOException e1) {
@@ -151,7 +151,7 @@ public class Main extends JFrame {
 					
 					try {
 					
-						Files.move(Paths.get(moveFile), Paths.get(moveFile.replace(moveFile.split("/")[moveFile.split("/").length - 1], "Complete/" + moveFile.split("/")[moveFile.split("/").length - 1])));
+						Files.move(Paths.get(moveFile), Paths.get(moveFile.replace(moveFile.split("/")[moveFile.split("/").length - 1], "complete/" + moveFile.split("/")[moveFile.split("/").length - 1])));
 					
 					} catch (IOException e1) {
 					
@@ -341,25 +341,25 @@ public class Main extends JFrame {
 		
 		ArrayList<String> potentials = new ArrayList<String>();
 		
-		try ( BufferedReader reader = Files.newBufferedReader(Paths.get("<Student Groups>")) ) {
+		try ( BufferedReader reader = Files.newBufferedReader(Paths.get("/Users/Martin/Dropbox/University/Teaching Fellow/2016-17/Teaching/4CCS1PPA/Semester 2/Assignments/Coursework X/ppa-major-coursework-2017/ppa-major-coursework-2017/marking/student_data/students.csv")) ) {
 			
-			for ( String name : reader.lines().collect( Collectors.toList() )) {
+			for ( String line : reader.lines().collect( Collectors.toList() )) {
 				
-				if ( name.contains("First name") ) continue;
+				String firstname = line.split(",")[3].toLowerCase();
 				
-				if ( filename.contains("_") ) {
-					
-					filename = filename.split("_")[0];
-					
-				} else {
-					
-					filename = filename.split("\\.")[0];
-					
-				}
+				String surname = line.split(",")[4].toLowerCase();
 				
-				if ( name.contains(filename.substring(1)) ) {
+				String studentNumber = line.split(",")[0].toLowerCase();
+				
+				filename = filename.toLowerCase();
+				
+				// 
+				
+				if ( line.contains("First name") ) continue;
+				
+				if ( filename.contains(firstname) || filename.contains(surname) || filename.contains(studentNumber) ) {
 					
-					potentials.add(name);
+					potentials.add(firstname + "," + surname + "," + studentNumber);
 					
 				}
 				
