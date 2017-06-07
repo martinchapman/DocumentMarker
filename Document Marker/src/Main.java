@@ -147,7 +147,7 @@ public class Main extends JFrame {
 					
 					String moveFile = files.remove(0);
 					
-					// System.out.println(moveFile.replace(moveFile.split("/")[moveFile.split("/").length - 1], "/Complete/" + moveFile.split("/")[moveFile.split("/").length - 1]));
+					// System.out.println(moveFile.replace(moveFile.split("/")[moveFile.split("/").length - 1], "/complete/" + moveFile.split("/")[moveFile.split("/").length - 1]));
 					
 					try {
 					
@@ -339,6 +339,8 @@ public class Main extends JFrame {
 	
 	private ArrayList<String> fileNameToStudent(String filename) {
 		
+		System.out.println(filename);
+		
 		ArrayList<String> potentials = new ArrayList<String>();
 		
 		try ( BufferedReader reader = Files.newBufferedReader(Paths.get("/Users/Martin/Dropbox/University/Teaching Fellow/2016-17/Teaching/4CCS1PPA/Semester 2/Assignments/Coursework X/ppa-major-coursework-2017/ppa-major-coursework-2017/marking/student_data/students.csv")) ) {
@@ -357,9 +359,25 @@ public class Main extends JFrame {
 				
 				if ( line.contains("First name") ) continue;
 				
-				if ( filename.contains(firstname) || filename.contains(surname) || filename.contains(studentNumber) ) {
+				String potential = ""; 
+				
+				if ( filename.contains(firstname) || filename.contains(surname) ) {
 					
-					potentials.add(firstname + "," + surname + "," + studentNumber);
+					potential = firstname + "," + surname + "," + studentNumber;
+					
+				}
+				
+				if ( potential != "" ) {
+					
+					if ( surname.length() > 2 ) {
+						
+						potentials.add(0, potential);
+						
+					} else {
+						
+						potentials.add(potentials.size(), potential);
+						
+					}
 					
 				}
 				
